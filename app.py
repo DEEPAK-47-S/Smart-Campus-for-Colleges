@@ -5,7 +5,14 @@ from database.db import get_db_connection, init_db
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'smartcampus_niet_super_secret_key_dev')
-app.config['UPLOAD_FOLDER'] = os.path.join('/tmp' if os.environ.get('VERCEL') else app.root_path, 'static', 'uploads')
+
+# Check environment for Vercel or read-only filesystem
+IS_VERCEL = bool(os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'))
+if IS_VERCEL:
+    app.config['UPLOAD_FOLDER'] = '/tmp/uploads'
+else:
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
+
 try:
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 except Exception:
