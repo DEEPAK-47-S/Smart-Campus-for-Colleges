@@ -5,8 +5,11 @@ from database.db import get_db_connection, init_db
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'smartcampus_niet_super_secret_key_dev')
-app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'static', 'uploads')
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+app.config['UPLOAD_FOLDER'] = os.path.join('/tmp' if os.environ.get('VERCEL') else app.root_path, 'static', 'uploads')
+try:
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+except Exception:
+    pass
 
 # Import routes after app initialization to avoid circular imports
 from backend.routes.admin import admin_bp
@@ -28,16 +31,20 @@ app.register_blueprint(mentor_bp, url_prefix='/api/mentor')
 app.register_blueprint(placement_bp, url_prefix='/api/placement')
 app.register_blueprint(ai_bp, url_prefix='/api/ai')
 
-# Initialize DB on startup
-with app.app_context():
-    init_db()
+# Initialize DB safely on app startup
+try:
+    with app.app_context():
+        init_db()
+except Exception as e:
+    print(f"Startup DB Init Notice: {e}")
 
 # Template rendering routes
 @app.route('/')
 def index():
     if 'user_id' in session:
         role = session.get('role')
-        return redirect(url_for(f'{role}_dashboard'))
+        if role:
+            return redirect(url_for(f'{role}_dashboard'))
     return render_template('index.html')
 
 @app.route('/admin')
