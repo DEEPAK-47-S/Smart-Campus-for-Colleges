@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SMARTCAMPUS NIET</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background.css') }}">
+    <style>
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .stat-card h3 { font-size: 2rem; color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="bg-animation-container">
+        <div class="bg-shape shape1"></div>
+        <div class="bg-shape shape2"></div>
+        <div class="bg-shape shape3"></div>
+        <div class="bg-shape shape4"></div>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="app-container">
+        {% include 'partials/sidebar.html' %}
+        
+        <div class="main-content">
+            {% include 'partials/topbar.html' %}
+            
+            <div id="module-container">
+                <!-- Dashboard Default Content -->
+                <div class="stats-grid">
+                    <div class="glass-card stat-card">
+                        <h5>Total Students</h5>
+                        <h3 id="stat-students">--</h3>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <h5>Total Faculty</h5>
+                        <h3 id="stat-faculty">--</h3>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <h5>Departments</h5>
+                        <h3 id="stat-departments">--</h3>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <h5>Companies</h5>
+                        <h3 id="stat-companies">--</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboards/admin.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const stats = await App.fetchAPI('/api/admin/dashboard_stats');
+                document.getElementById('stat-students').textContent = stats.total_students;
+                document.getElementById('stat-faculty').textContent = stats.total_faculty;
+                document.getElementById('stat-departments').textContent = stats.total_departments;
+                document.getElementById('stat-companies').textContent = stats.total_companies;
+            } catch (e) {
+                console.error("Failed to load stats", e);
+            }
+        });
+    </script>
+</body>
+</html>

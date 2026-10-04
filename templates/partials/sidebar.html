@@ -1,0 +1,33 @@
+<div class="sidebar glass-panel">
+    <div class="sidebar-header" style="margin-bottom: 2rem;">
+        <h3 style="color: var(--primary);">SMARTCAMPUS</h3>
+    </div>
+    <ul class="sidebar-nav" style="list-style: none;">
+        {% if session.role == 'admin' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/admin" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('users')">Manage Users</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('departments')">Departments</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('reports')">Reports</a></li>
+        {% elif session.role == 'hod' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/hod" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('analytics')">Analytics</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('faculty')">Faculty</a></li>
+        {% elif session.role == 'faculty' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/faculty" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('attendance')">Attendance</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('marks')">Marks</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('assignments')">Assignments</a></li>
+        {% elif session.role == 'mentor' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/mentor" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('students')">My Students</a></li>
+        {% elif session.role == 'placement' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/placement" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('jobs')">Jobs</a></li>
+        {% elif session.role == 'student' %}
+        <li style="margin-bottom: 0.5rem;"><a href="/student" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;">Dashboard</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('profile')">My 360° Profile</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('attendance')">Attendance</a></li>
+        <li style="margin-bottom: 0.5rem;"><a href="#" class="btn btn-secondary" style="width: 100%; justify-content: flex-start; border: none;" onclick="loadModule('marks')">Marks</a></li>
+        {% endif %}
+    </ul>
+</div>

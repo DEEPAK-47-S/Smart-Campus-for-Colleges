@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARTCAMPUS | Enterprise University ERP Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background.css') }}">
+</head>
+<body>
+    <div class="bg-animation-container">
+        <div class="bg-shape shape1"></div>
+        <div class="bg-shape shape2"></div>
+        <div class="bg-shape shape3"></div>
+        <div class="bg-shape shape4"></div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="auth-container" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem;">
+        <div class="glass-card auth-card" style="max-width: 480px; width: 100%;">
+            <div class="auth-header" style="text-align: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 2rem; color: var(--primary); font-weight: 700; margin-bottom: 0.3rem;"><i class="fas fa-university"></i> SMARTCAMPUS</h2>
+                <p class="text-muted" style="font-size: 0.9rem;">Unified Campus Management & ERP Ecosystem</p>
+            </div>
+            
+            <!-- Tab Switcher -->
+            <div style="display: flex; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 4px; margin-bottom: 1.5rem; border: 1px solid var(--glass-border);">
+                <button type="button" id="tabLogin" onclick="switchTab('login')" class="btn" style="flex: 1; border-radius: 6px; background: var(--primary); color: #fff; font-weight: 600;">Sign In</button>
+                <button type="button" id="tabRegister" onclick="switchTab('register')" class="btn" style="flex: 1; border-radius: 6px; background: transparent; color: var(--text-color); font-weight: 600;">Register Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" class="form-control" required placeholder="Enter username (e.g., student_alice, admin)">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" class="form-control" required placeholder="Enter password (default: 123456)">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                    <div class="form-group">
+                        <label><i class="fas fa-id-badge"></i> First Name</label>
+                        <input type="text" id="r_fname" class="form-control" required placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="r_lname" class="form-control" required placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="r_email" class="form-control" required placeholder="name@college.edu">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label><i class="fas fa-user-tag"></i> Choose Role</label>
+                    <select id="r_role" class="form-control" style="background: var(--glass-bg); color: var(--text-color);" required>
+                        <option value="student">Student</option>
+                        <option value="faculty">Faculty / Professor</option>
+                        <option value="hod">Head of Department (HOD)</option>
+                        <option value="mentor">Academic Mentor</option>
+                        <option value="placement">Placement Officer</option>
+                        <option value="admin">System Administrator</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label><i class="fas fa-user"></i> Desired Username</label>
+                    <input type="text" id="r_username" class="form-control" required placeholder="Create username">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label><i class="fas fa-key"></i> Password</label>
+                    <input type="password" id="r_password" class="form-control" required placeholder="Create password">
+                </div>
+                <button type="submit" class="btn btn-secondary" style="width: 100%;">Create Account</button>
+            </form>
+            
+            <div class="mt-4 text-center" style="margin-top: 1.5rem; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+                <small class="text-muted" style="display: block; line-height: 1.4;">
+                    <strong>Demo Seed Accounts (Password: <code>123456</code>):</strong><br>
+                    Admin: <code>admin</code> | Student: <code>student_alice</code> | Faculty: <code>faculty_john</code><br>
+                    HOD: <code>hod_cse</code> | Mentor: <code>mentor_jane</code> | Placement: <code>placement_officer</code>
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+
+            if (tab === 'login') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                tabLogin.style.background = 'var(--primary)';
+                tabLogin.style.color = '#fff';
+                tabRegister.style.background = 'transparent';
+                tabRegister.style.color = 'var(--text-color)';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                tabRegister.style.background = 'var(--primary)';
+                tabRegister.style.color = '#fff';
+                tabLogin.style.background = 'transparent';
+                tabLogin.style.color = 'var(--text-color)';
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const data = await App.fetchAPI('/api/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password })
+                });
+                
+                App.toast('Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = `/${data.user.role}`;
+                }, 800);
+            } catch (error) {
+                // Toast handled by fetchAPI
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                first_name: document.getElementById('r_fname').value,
+                last_name: document.getElementById('r_lname').value,
+                email: document.getElementById('r_email').value,
+                role: document.getElementById('r_role').value,
+                username: document.getElementById('r_username').value,
+                password: document.getElementById('r_password').value
+            };
+
+            try {
+                await App.fetchAPI('/api/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                App.toast('Account created! Please log in.', 'success');
+                switchTab('login');
+                document.getElementById('username').value = payload.username;
+            } catch (error) {
+                // Handled
+            }
+        });
+    </script>
+</body>
+</html>

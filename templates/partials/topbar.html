@@ -1,0 +1,9 @@
+<div class="topbar glass-panel" style="margin-bottom: 2rem;">
+    <div class="breadcrumb">
+        <h4 id="page-title">Dashboard</h4>
+    </div>
+    <div class="user-actions" style="display: flex; gap: 1rem; align-items: center;">
+        <span>Welcome, <strong>{{ session.username }}</strong> ({{ session.role }})</span>
+        <button class="btn btn-primary btn-sm" onclick="App.logout()">Logout</button>
+    </div>
+</div>
